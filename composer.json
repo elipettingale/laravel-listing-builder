@@ -1,0 +1,21 @@
+{
+  "name": "elipettingale/laravel-listing-builder",
+  "description": "A service class for quickly building listings of entities.",
+  "type": "library",
+  "require": {
+    "laravel/framework": "^5.4|^5.5",
+    "php": "^7.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Ejp\\ListingBuilder\\": "src/"
+    }
+  },
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Elliot Pettingale",
+      "email": "elipettingale@gmail.com"
+    }
+  ]
+}
