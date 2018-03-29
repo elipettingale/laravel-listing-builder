@@ -15,6 +15,11 @@ class EloquentListingBuilder implements ListingBuilder
 
     private $query;
 
+    public function __construct($query)
+    {
+        $this->query = $query;
+    }
+
     public function fromListingSpecification(ListingSpecification $listingSpecification): EloquentListingBuilder
     {
         $this->listingSpecification = $listingSpecification;
