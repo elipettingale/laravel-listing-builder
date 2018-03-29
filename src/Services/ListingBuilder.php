@@ -1,9 +1,9 @@
 <?php
 
-namespace Ejp\ListingBuilder\Services;
+namespace EliPett\ListingBuilder\Services;
 
 use Illuminate\Pagination\LengthAwarePaginator;
-use Ejp\ListingBuilder\Structs\ListingSpecification;
+use EliPett\ListingBuilder\Structs\ListingSpecification;
 
 interface ListingBuilder
 {

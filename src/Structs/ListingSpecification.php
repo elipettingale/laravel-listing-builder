@@ -1,6 +1,6 @@
 <?php
 
-namespace Ejp\ListingBuilder\Structs;
+namespace EliPett\ListingBuilder\Structs;
 
 use Illuminate\Http\Request;
 

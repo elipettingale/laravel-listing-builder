@@ -1,15 +1,15 @@
 <?php
 
-namespace Ejp\ListingBuilder\Services\Eloquent;
+namespace EliPett\ListingBuilder\Services\Eloquent;
 
 use Illuminate\Pagination\LengthAwarePaginator;
-use Ejp\ListingBuilder\Services\ListingBuilder;
-use Ejp\ListingBuilder\Structs\ListingSpecification;
+use EliPett\ListingBuilder\Services\ListingBuilder;
+use EliPett\ListingBuilder\Structs\ListingSpecification;
 
 class EloquentListingBuilder implements ListingBuilder
 {
     /**
-     * @var \Ejp\ListingBuilder\Structs\ListingSpecification $listingSpecification
+     * @var \EliPett\ListingBuilder\Structs\ListingSpecification $listingSpecification
      */
     private $listingSpecification;
 
