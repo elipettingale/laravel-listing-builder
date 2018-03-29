@@ -15,6 +15,11 @@ class MixedListingBuilder implements ListingBuilder
 
     private $collection;
 
+    public function __construct($collection)
+    {
+        $this->collection = $collection;
+    }
+
     public function fromListingSpecification(ListingSpecification $listingSpecification): MixedListingBuilder
     {
         $this->listingSpecification = $listingSpecification;
