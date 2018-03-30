@@ -8,12 +8,11 @@ use EliPett\ListingBuilder\Structs\ListingSpecification;
 
 class EloquentListingBuilder implements ListingBuilder
 {
-    /**
-     * @var \EliPett\ListingBuilder\Structs\ListingSpecification $listingSpecification
-     */
-    private $listingSpecification;
-
     private $query;
+
+    private $column;
+    private $direction;
+    private $perPage;
 
     public function __construct($query)
     {
@@ -22,7 +21,9 @@ class EloquentListingBuilder implements ListingBuilder
 
     public function fromListingSpecification(ListingSpecification $listingSpecification): EloquentListingBuilder
     {
-        $this->listingSpecification = $listingSpecification;
+        $this->column = $listingSpecification->getColumn();
+        $this->direction = $listingSpecification->getDirection();
+        $this->perPage = $listingSpecification->getPerPage();
 
         return $this;
     }
@@ -41,11 +42,11 @@ class EloquentListingBuilder implements ListingBuilder
 
     public function orderResults(string $defaultColumn, string $defaultDirection): EloquentListingBuilder
     {
-        if (!$column = $this->listingSpecification->getColumn()) {
+        if (!$column = $this->column) {
             $column = $defaultColumn;
         }
 
-        if (!$direction = $this->listingSpecification->getDirection()) {
+        if (!$direction = $this->direction) {
             $direction = $defaultDirection;
         }
 
@@ -92,6 +93,6 @@ class EloquentListingBuilder implements ListingBuilder
     public function getPaginatedResults(): LengthAwarePaginator
     {
         return $this->query
-            ->paginate($this->listingSpecification->getPerPage());
+            ->paginate($this->perPage);
     }
 }

@@ -7,12 +7,12 @@ use EliPett\ListingBuilder\Services\Mixed\MixedListingBuilder;
 
 class BuildListing
 {
-    public static function forQuery($query)
+    public static function fromQuery($query)
     {
         return new EloquentListingBuilder($query);
     }
 
-    public static function forCollection($collection)
+    public static function fromCollection($collection)
     {
         return new MixedListingBuilder($collection);
     }

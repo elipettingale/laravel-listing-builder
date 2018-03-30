@@ -8,12 +8,13 @@ use EliPett\ListingBuilder\Structs\ListingSpecification;
 
 class MixedListingBuilder implements ListingBuilder
 {
-    /**
-     * @var \EliPett\ListingBuilder\Structs\ListingSpecification $listingSpecification
-     */
-    private $listingSpecification;
-
     private $collection;
+
+    private $column;
+    private $direction;
+    private $perPage;
+    private $page;
+    private $url;
 
     public function __construct($collection)
     {
@@ -22,7 +23,11 @@ class MixedListingBuilder implements ListingBuilder
 
     public function fromListingSpecification(ListingSpecification $listingSpecification): MixedListingBuilder
     {
-        $this->listingSpecification = $listingSpecification;
+        $this->column = $listingSpecification->getColumn();
+        $this->direction = $listingSpecification->getDirection();
+        $this->perPage = $listingSpecification->getPerPage();
+        $this->page = $listingSpecification->getCurrentPage();
+        $this->url = $listingSpecification->getUrl();
 
         return $this;
     }
@@ -41,11 +46,11 @@ class MixedListingBuilder implements ListingBuilder
 
     public function orderResults(string $defaultColumn, string $defaultDirection): MixedListingBuilder
     {
-        if (!$column = $this->listingSpecification->getColumn()) {
+        if (!$column = $this->column) {
             $column = $defaultColumn;
         }
 
-        if (!$direction = $this->listingSpecification->getDirection()) {
+        if (!$direction = $this->direction) {
             $direction = $defaultDirection;
         }
 
@@ -99,15 +104,11 @@ class MixedListingBuilder implements ListingBuilder
 
     public function getPaginatedResults(): LengthAwarePaginator
     {
-        $perPage = $this->listingSpecification->getPerPage();
-        $page = $this->listingSpecification->getCurrentPage();
-        $url = $this->listingSpecification->getUrl();
-
         return new LengthAwarePaginator(
-            $this->collection->forPage($page, $perPage),
+            $this->collection->forPage($this->page, $this->perPage),
             $this->collection->count(),
-            $perPage,
-            $page,
-            ['path' => $url]);
+            $this->perPage,
+            $this->page,
+            ['path' => $this->url]);
     }
 }
