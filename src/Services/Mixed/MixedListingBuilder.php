@@ -72,6 +72,24 @@ class MixedListingBuilder implements ListingBuilder
         return $this;
     }
 
+    public function filterResultsIfTrue(string $key, callable $function)
+    {
+        if (request()->get($key) === 'true') {
+            \call_user_func($function, $this->collection);
+        }
+
+        return $this;
+    }
+
+    public function filterResultsIfNotTrue(string $key, callable $function)
+    {
+        if (request()->get($key) !== 'true') {
+            \call_user_func($function, $this->collection);
+        }
+
+        return $this;
+    }
+
     public function filterResultsWhereLike(array $keys): MixedListingBuilder
     {
         foreach ($keys as $key) {
