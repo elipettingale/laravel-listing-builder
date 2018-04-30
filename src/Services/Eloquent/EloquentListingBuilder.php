@@ -56,6 +56,13 @@ class EloquentListingBuilder implements ListingBuilder
         return $this;
     }
 
+    public function filterResults(callable $function): EloquentListingBuilder
+    {
+        \call_user_func($function, $this->query);
+
+        return $this;
+    }
+
     public function filterResultsWhereLike(array $keys): EloquentListingBuilder
     {
         foreach ($keys as $key) {

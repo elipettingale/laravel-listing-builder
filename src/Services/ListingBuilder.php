@@ -11,6 +11,7 @@ interface ListingBuilder
 
     public function orderResults(string $defaultColumn, string $defaultDirection);
 
+    public function filterResults(callable $function);
     public function filterResultsWhereLike(array $keys);
     public function filterResultsWhereEqual(array $keys);
     public function filterResultsWhereConcatLike(string $key, string $firstColumn, string $secondColumn);
