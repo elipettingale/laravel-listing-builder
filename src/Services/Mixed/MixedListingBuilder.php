@@ -65,6 +65,13 @@ class MixedListingBuilder implements ListingBuilder
         return $this;
     }
 
+    public function filterResults(callable $function): MixedListingBuilder
+    {
+        \call_user_func($function, $this->collection);
+
+        return $this;
+    }
+
     public function filterResultsWhereLike(array $keys): MixedListingBuilder
     {
         foreach ($keys as $key) {
