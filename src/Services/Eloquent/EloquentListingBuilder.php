@@ -58,24 +58,24 @@ class EloquentListingBuilder implements ListingBuilder
 
     public function filterResults(callable $function): EloquentListingBuilder
     {
-        \call_user_func($function, $this->query);
+        $this->query = \call_user_func($function, $this->query);
 
         return $this;
     }
 
-    public function filterResultsIfTrue(string $key, callable $function)
+    public function filterResultsIfTrue(string $key, callable $function): EloquentListingBuilder
     {
         if (request()->get($key) === 'true') {
-            \call_user_func($function, $this->query);
+            $this->query = \call_user_func($function, $this->query);
         }
 
         return $this;
     }
 
-    public function filterResultsIfNotTrue(string $key, callable $function)
+    public function filterResultsIfNotTrue(string $key, callable $function): EloquentListingBuilder
     {
         if (request()->get($key) !== 'true') {
-            \call_user_func($function, $this->query);
+            $this->query = \call_user_func($function, $this->query);
         }
 
         return $this;
