@@ -81,6 +81,28 @@ class EloquentListingBuilder implements ListingBuilder
         return $this;
     }
 
+    public function filterResultsIfTrueByScope(array $filters): EloquentListingBuilder
+    {
+        foreach ($filters as $key => $scope) {
+            if (request()->get($key) === 'true') {
+                $this->query = $this->query->$scope();
+            }
+        }
+
+        return $this;
+    }
+
+    public function filterResultsIfNotTrueByScope(array $filters): EloquentListingBuilder
+    {
+        foreach ($filters as $key => $scope) {
+            if (request()->get($key) !== 'true') {
+                $this->query = $this->query->$scope();
+            }
+        }
+
+        return $this;
+    }
+
     public function filterResultsWhereLike(array $keys): EloquentListingBuilder
     {
         foreach ($keys as $key) {
