@@ -152,6 +152,7 @@ class MixedListingBuilder implements ListingBuilder
             $this->collection->count(),
             $this->perPage,
             $this->page,
-            ['path' => $this->url]);
+            ['path' => $this->url]
+        );
     }
 }
