@@ -14,6 +14,8 @@ interface ListingBuilder
     public function filterResults(callable $function);
     public function filterResultsIfTrue(string $key, callable $function);
     public function filterResultsIfNotTrue(string $key, callable $function);
+    public function filterResultsIfFalse(string $key, callable $function);
+    public function filterResultsIfNotFalse(string $key, callable $function);
     public function filterResultsWhereLike(array $keys);
     public function filterResultsWhereEqual(array $keys);
     public function filterResultsWhereConcatLike(string $key, string $firstColumn, string $secondColumn);

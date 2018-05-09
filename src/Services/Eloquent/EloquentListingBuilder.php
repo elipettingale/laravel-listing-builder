@@ -81,6 +81,22 @@ class EloquentListingBuilder implements ListingBuilder
         return $this;
     }
 
+    public function filterResultsIfFalse(string $key, callable $function): EloquentListingBuilder
+    {
+        if (request()->get($key) === 'false') {
+            $this->query = \call_user_func($function, $this->query);
+        }
+    }
+
+    public function filterResultsIfNotFalse(string $key, callable $function): EloquentListingBuilder
+    {
+        if (request()->get($key) !== 'false') {
+            $this->query = \call_user_func($function, $this->query);
+        }
+
+        return $this;
+    }
+
     public function filterResultsIfTrueByScope(array $filters): EloquentListingBuilder
     {
         foreach ($filters as $key => $scope) {
