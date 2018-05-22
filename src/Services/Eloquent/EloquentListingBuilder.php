@@ -58,7 +58,7 @@ class EloquentListingBuilder implements ListingBuilder
 
     public function filterResults(callable $function): EloquentListingBuilder
     {
-        $this->query = \call_user_func($function, $this->query);
+        \call_user_func_array($function, [&$this->query]);
 
         return $this;
     }
@@ -66,7 +66,7 @@ class EloquentListingBuilder implements ListingBuilder
     public function filterResultsIfTrue(string $key, callable $function): EloquentListingBuilder
     {
         if (request()->get($key) === 'true') {
-            $this->query = \call_user_func($function, $this->query);
+            \call_user_func_array($function, [&$this->query]);
         }
 
         return $this;
@@ -75,7 +75,7 @@ class EloquentListingBuilder implements ListingBuilder
     public function filterResultsIfNotTrue(string $key, callable $function): EloquentListingBuilder
     {
         if (request()->get($key) !== 'true') {
-            $this->query = \call_user_func($function, $this->query);
+            \call_user_func_array($function, [&$this->query]);
         }
 
         return $this;
@@ -84,7 +84,7 @@ class EloquentListingBuilder implements ListingBuilder
     public function filterResultsIfFalse(string $key, callable $function): EloquentListingBuilder
     {
         if (request()->get($key) === 'false') {
-            $this->query = \call_user_func($function, $this->query);
+            \call_user_func_array($function, [&$this->query]);
         }
 
         return $this;
@@ -93,7 +93,7 @@ class EloquentListingBuilder implements ListingBuilder
     public function filterResultsIfNotFalse(string $key, callable $function): EloquentListingBuilder
     {
         if (request()->get($key) !== 'false') {
-            $this->query = \call_user_func($function, $this->query);
+            \call_user_func_array($function, [&$this->query]);
         }
 
         return $this;

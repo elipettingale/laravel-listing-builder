@@ -67,7 +67,7 @@ class MixedListingBuilder implements ListingBuilder
 
     public function filterResults(callable $function): MixedListingBuilder
     {
-        $this->collection = \call_user_func($function, $this->collection);
+        \call_user_func($function, [&$this->collection]);
 
         return $this;
     }
@@ -75,7 +75,7 @@ class MixedListingBuilder implements ListingBuilder
     public function filterResultsIfTrue(string $key, callable $function): MixedListingBuilder
     {
         if (request()->get($key) === 'true') {
-            $this->collection = \call_user_func($function, $this->collection);
+            \call_user_func($function, [&$this->collection]);
         }
 
         return $this;
@@ -84,7 +84,7 @@ class MixedListingBuilder implements ListingBuilder
     public function filterResultsIfNotTrue(string $key, callable $function): MixedListingBuilder
     {
         if (request()->get($key) !== 'true') {
-            $this->collection = \call_user_func($function, $this->collection);
+            \call_user_func($function, [&$this->collection]);
         }
 
         return $this;
@@ -93,7 +93,7 @@ class MixedListingBuilder implements ListingBuilder
     public function filterResultsIfFalse(string $key, callable $function): MixedListingBuilder
     {
         if (request()->get($key) === 'false') {
-            $this->collection = \call_user_func($function, $this->collection);
+            \call_user_func($function, [&$this->collection]);
         }
 
         return $this;
@@ -102,7 +102,7 @@ class MixedListingBuilder implements ListingBuilder
     public function filterResultsIfNotFalse(string $key, callable $function): MixedListingBuilder
     {
         if (request()->get($key) !== 'false') {
-            $this->collection = \call_user_func($function, $this->collection);
+            \call_user_func($function, [&$this->collection]);
         }
 
         return $this;
@@ -152,6 +152,7 @@ class MixedListingBuilder implements ListingBuilder
             $this->collection->count(),
             $this->perPage,
             $this->page,
-            ['path' => $this->url]);
+            ['path' => $this->url]
+        );
     }
 }
