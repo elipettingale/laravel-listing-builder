@@ -5,6 +5,7 @@ namespace EliPett\ListingBuilder\Services\Eloquent;
 use Illuminate\Pagination\LengthAwarePaginator;
 use EliPett\ListingBuilder\Services\ListingBuilder;
 use EliPett\ListingBuilder\Structs\ListingSpecification;
+use Illuminate\Support\Collection;
 
 class EloquentListingBuilder implements ListingBuilder
 {
@@ -153,6 +154,12 @@ class EloquentListingBuilder implements ListingBuilder
         }
 
         return $this;
+    }
+
+    public function getResults(): Collection
+    {
+        return $this->query
+            ->get();
     }
 
     public function getPaginatedResults(): LengthAwarePaginator

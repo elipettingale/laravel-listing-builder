@@ -4,6 +4,7 @@ namespace EliPett\ListingBuilder\Services;
 
 use Illuminate\Pagination\LengthAwarePaginator;
 use EliPett\ListingBuilder\Structs\ListingSpecification;
+use Illuminate\Support\Collection;
 
 interface ListingBuilder
 {
@@ -20,5 +21,6 @@ interface ListingBuilder
     public function filterResultsWhereEqual(array $keys);
     public function filterResultsWhereConcatLike(string $key, string $firstColumn, string $secondColumn);
 
+    public function getResults(): Collection;
     public function getPaginatedResults(): LengthAwarePaginator;
 }

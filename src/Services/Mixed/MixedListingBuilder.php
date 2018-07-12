@@ -5,6 +5,7 @@ namespace EliPett\ListingBuilder\Services\Mixed;
 use Illuminate\Pagination\LengthAwarePaginator;
 use EliPett\ListingBuilder\Services\ListingBuilder;
 use EliPett\ListingBuilder\Structs\ListingSpecification;
+use Illuminate\Support\Collection;
 
 class MixedListingBuilder implements ListingBuilder
 {
@@ -143,6 +144,11 @@ class MixedListingBuilder implements ListingBuilder
         }
 
         return $this;
+    }
+
+    public function getResults(): Collection
+    {
+        return $this->collection;
     }
 
     public function getPaginatedResults(): LengthAwarePaginator
