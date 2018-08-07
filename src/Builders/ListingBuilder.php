@@ -9,7 +9,7 @@ interface ListingBuilder
 {
     public function whereEqual(array $args);
     public function whereLike(array $args);
-    public function if(string $key, string $value, $arg);
+    public function ifEqual(string $value, array $args);
 
     public function get(): Collection;
     public function paginate(): LengthAwarePaginator;
