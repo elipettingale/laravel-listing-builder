@@ -2,18 +2,11 @@
 
 namespace EliPett\ListingBuilder\Filters\Eloquent;
 
+use EliPett\ListingBuilder\Filters\Filter;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Http\Request;
 
-class EloquentWhereEqualFilter
+class EloquentWhereEqualFilter extends Filter
 {
-    private $request;
-
-    public function __construct(Request $request)
-    {
-        $this->request = $request;
-    }
-
     public function filter(Builder $query, string $key): void
     {
         if ($value = $this->request->get($key)) {

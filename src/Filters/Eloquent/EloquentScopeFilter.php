@@ -2,18 +2,11 @@
 
 namespace EliPett\ListingBuilder\Filters\Eloquent;
 
+use EliPett\ListingBuilder\Filters\Filter;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Http\Request;
 
-class EloquentScopeFilter
+class EloquentScopeFilter extends Filter
 {
-    private $request;
-
-    public function __construct(Request $request)
-    {
-        $this->request = $request;
-    }
-
     public function filter(Builder $query, string $scope): void
     {
         $method = substr($scope, 5);

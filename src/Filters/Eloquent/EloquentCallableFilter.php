@@ -2,18 +2,11 @@
 
 namespace EliPett\ListingBuilder\Filters\Eloquent;
 
+use EliPett\ListingBuilder\Filters\Filter;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Http\Request;
 
-class EloquentCallableFilter
+class EloquentCallableFilter extends Filter
 {
-    private $request;
-
-    public function __construct(Request $request)
-    {
-        $this->request = $request;
-    }
-
     public function filter(Builder $query, callable $function): void
     {
         $function($query);
