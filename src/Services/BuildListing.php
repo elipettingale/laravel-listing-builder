@@ -2,18 +2,14 @@
 
 namespace EliPett\ListingBuilder\Services;
 
-use EliPett\ListingBuilder\Services\Eloquent\EloquentListingBuilder;
-use EliPett\ListingBuilder\Services\Mixed\MixedListingBuilder;
+use EliPett\ListingBuilder\Builders\Eloquent\EloquentListingBuilder;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\Request;
 
 class BuildListing
 {
-    public static function fromQuery($query)
+    public static function fromQuery(Builder $query, Request $request = null): EloquentListingBuilder
     {
-        return new EloquentListingBuilder($query);
-    }
-
-    public static function fromCollection($collection)
-    {
-        return new MixedListingBuilder($collection);
+        return new EloquentListingBuilder($query, $request ?? request());
     }
 }

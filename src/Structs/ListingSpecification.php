@@ -9,39 +9,25 @@ class ListingSpecification
     private $column;
     private $direction;
 
-    private $currentPage = 1;
-    private $perPage = 10;
+    private $currentPage;
+    private $perPage;
     private $url;
 
-    public function fromRequest(Request $request): void
+    public function __construct(Request $request)
     {
-        if ( $column = $request->get('column') ) {
-            $this->column = $column;
-        }
-
-        if ( $direction = $request->get('direction') ) {
-            $this->direction = $direction;
-        }
-
-        if ( $page = $request->get('page') ) {
-            $this->currentPage = $page;
-        }
-
-        if ( $perPage = $request->get('per_page') ) {
-            $this->perPage = $perPage;
-        }
-
-        if ( $url = $request->url() ) {
-            $this->url = $url;
-        }
+        $this->column = $request->get('column');
+        $this->direction = $request->get('direction');
+        $this->currentPage = $request->get('page', 1);
+        $this->perPage = $request->get('per_page', 10);
+        $this->url = $request->url();
     }
 
-    public function getColumn()
+    public function getColumn(): ?string
     {
         return $this->column;
     }
 
-    public function getDirection()
+    public function getDirection(): ?string
     {
         return $this->direction;
     }
@@ -56,7 +42,7 @@ class ListingSpecification
         return $this->perPage;
     }
 
-    public function getUrl()
+    public function getUrl(): string
     {
         return $this->url;
     }
