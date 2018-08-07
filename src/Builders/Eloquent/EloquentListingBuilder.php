@@ -69,6 +69,27 @@ class EloquentListingBuilder implements ListingBuilder
         return $this;
     }
 
+    public function unlessEqual(string $value, array $args): EloquentListingBuilder
+    {
+        foreach ($args as $key => $arg) {
+            if ($this->request->get($key) !== $value) {
+                if (\is_callable($arg)) {
+                    $filter = new EloquentCallableFilter($this->request);
+                    $filter->filter($this->query, $arg);
+                }
+
+                if (\is_string($arg)) {
+                    if (strpos($arg, 'scope') === 0) {
+                        $filter = new EloquentScopeFilter($this->request);
+                        $filter->filter($this->query, $arg);
+                    }
+                }
+            }
+        }
+
+        return $this;
+    }
+
     public function get(): Collection
     {
         return $this->query->get();
