@@ -3,8 +3,10 @@
 namespace EliPett\ListingBuilder\Builders\Eloquent;
 
 use EliPett\ListingBuilder\Builders\ListingBuilder;
-use EliPett\ListingBuilder\Filters\WhereEqual;
-use EliPett\ListingBuilder\Filters\WhereLike;
+use EliPett\ListingBuilder\Filters\Eloquent\EloquentCallableFilter;
+use EliPett\ListingBuilder\Filters\Eloquent\EloquentScopeFilter;
+use EliPett\ListingBuilder\Filters\Eloquent\EloquentWhereEqualFilter;
+use EliPett\ListingBuilder\Filters\Eloquent\EloquentWhereLikeFilter;
 use EliPett\ListingBuilder\Structs\ListingSpecification;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
@@ -24,23 +26,42 @@ class EloquentListingBuilder implements ListingBuilder
         $this->listingSpecification = new ListingSpecification($request);
     }
 
-    public function whereEqual(array $items): EloquentListingBuilder
+    public function whereEqual(array $args): EloquentListingBuilder
     {
-        $filter = new WhereEqual($this->request);
+        $filter = new EloquentWhereEqualFilter($this->request);
 
-        foreach ($items as $item) {
-            $filter->filter($this->query, $item);
+        foreach ($args as $arg) {
+            $filter->filter($this->query, $arg);
         }
 
         return $this;
     }
 
-    public function whereLike(array $items): EloquentListingBuilder
+    public function whereLike(array $args): EloquentListingBuilder
     {
-        $filter = new WhereLike($this->request);
+        $filter = new EloquentWhereLikeFilter($this->request);
 
-        foreach ($items as $item) {
-            $filter->filter($this->query, $item);
+        foreach ($args as $arg) {
+            $filter->filter($this->query, $arg);
+        }
+
+        return $this;
+    }
+
+    public function if(string $key, string $value, $arg): EloquentListingBuilder
+    {
+        if ($this->request->get($key) === $value) {
+            if (\is_callable($arg)) {
+                $filter = new EloquentCallableFilter($this->request);
+                $filter->filter($this->query, $arg);
+            }
+
+            if (\is_string($arg)) {
+                if (strpos($arg, 'scope') === 0) {
+                    $filter = new EloquentScopeFilter($this->request);
+                    $filter->filter($this->query, $arg);
+                }
+            }
         }
 
         return $this;

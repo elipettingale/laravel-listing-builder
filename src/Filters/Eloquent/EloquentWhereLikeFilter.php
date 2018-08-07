@@ -1,11 +1,11 @@
 <?php
 
-namespace EliPett\ListingBuilder\Filters;
+namespace EliPett\ListingBuilder\Filters\Eloquent;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
-class WhereLike
+class EloquentWhereLikeFilter
 {
     private $request;
 
