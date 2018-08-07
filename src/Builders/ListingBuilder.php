@@ -8,6 +8,7 @@ use Illuminate\Support\Collection;
 interface ListingBuilder
 {
     public function whereEqual(array $items);
+    public function whereLike(array $items);
 
     public function get(): Collection;
     public function paginate(): LengthAwarePaginator;
