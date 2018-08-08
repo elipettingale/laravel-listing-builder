@@ -26,7 +26,9 @@ class ListingBuilder
     public function whereEqual(array $args): ListingBuilder
     {
         foreach ($args as $arg) {
-            $this->filter->filterWhereEqual($this->data, $arg);
+            if ($value = $this->request->get($arg)) {
+                $this->filter->filterWhereEqual($this->data, $arg);
+            }
         }
 
         return $this;
@@ -35,7 +37,9 @@ class ListingBuilder
     public function whereLike(array $args): ListingBuilder
     {
         foreach ($args as $arg) {
-            $this->filter->filterWhereLike($this->data, $arg);
+            if ($value = $this->request->get($arg)) {
+                $this->filter->filterWhereLike($this->data, $arg);
+            }
         }
 
         return $this;

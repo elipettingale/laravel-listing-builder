@@ -5,6 +5,7 @@ namespace EliPett\ListingBuilder\Filters\Eloquent;
 use EliPett\ListingBuilder\Filters\Filter;
 use EliPett\ListingBuilder\Structs\ListingSpecification;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 
@@ -19,20 +20,28 @@ class EloquentFilter implements Filter
         $this->listingSpecification = new ListingSpecification($request);
     }
 
+    /**
+     * @param \Illuminate\Database\Query\Builder $query
+     * @param string $key
+     */
     public function filterWhereEqual($query, string $key): void
     {
-        if ($value = $this->request->get($key)) {
-            $query->where($key, '=', $value);
-        }
+        $query->where($key, '=', $this->request->get($key));
     }
 
+    /**
+     * @param \Illuminate\Database\Query\Builder $query
+     * @param string $key
+     */
     public function filterWhereLike($query, string $key): void
     {
-        if ($value = $this->request->get($key)) {
-            $query->where($key, 'LIKE', "%$value%");
-        }
+        $query->where($key, 'LIKE', "%{$this->request->get($key)}%");
     }
 
+    /**
+     * @param \Illuminate\Database\Query\Builder $query
+     * @param $arg
+     */
     public function filter($query, $arg): void
     {
         if (\is_callable($arg)) {
@@ -50,11 +59,19 @@ class EloquentFilter implements Filter
         throw new \InvalidArgumentException("Unknown Filter Argument: $arg");
     }
 
+    /**
+     * @param \Illuminate\Database\Query\Builder $query
+     * @param callable $function
+     */
     private function filterByCallable($query, callable $function): void
     {
         $function($query);
     }
 
+    /**
+     * @param \Illuminate\Database\Query\Builder $query
+     * @param string $scope
+     */
     private function filterByScope($query, string $scope): void
     {
         $method = substr($scope, 5);
@@ -62,11 +79,19 @@ class EloquentFilter implements Filter
         $query->$method();
     }
 
+    /**
+     * @param \Illuminate\Database\Query\Builder $query
+     * @return \Illuminate\Support\Collection
+     */
     public function get($query): Collection
     {
         return $query->get();
     }
 
+    /**
+     * @param \Illuminate\Database\Query\Builder $query
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
     public function paginate($query): LengthAwarePaginator
     {
         return $query->paginate($this->listingSpecification->getPerPage());
