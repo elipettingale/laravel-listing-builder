@@ -54,10 +54,11 @@ class CollectionFilter implements Filter
     /**
      * @param \Illuminate\Support\Collection $collection
      * @param callable $function
+     * @param null $value
      */
-    public function filterByCallable($collection, callable $function): void
+    public function filterByCallable($collection, callable $function, $value = null): void
     {
-        $function($collection);
+        $function($collection, $value);
     }
 
     /**
