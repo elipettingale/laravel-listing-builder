@@ -70,7 +70,7 @@ class ListingBuilder
     public function ifSet(array $args): ListingBuilder
     {
         foreach ($args as $key => $arg) {
-            if ($value = $this->request->get($arg)) {
+            if ($value = $this->request->get($key)) {
                 $this->filter->filterByCallable($this->data, $arg);
             }
         }
