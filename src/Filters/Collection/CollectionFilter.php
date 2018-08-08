@@ -43,7 +43,21 @@ class CollectionFilter implements Filter
      */
     public function filter($collection, $arg): void
     {
-        // TODO: Implement filter() method.
+        if (\is_callable($arg)) {
+            $this->filterByCallable($collection, $arg);
+            return;
+        }
+
+        throw new \InvalidArgumentException("Unknown Filter Argument: $arg");
+    }
+
+    /**
+     * @param \Illuminate\Support\Collection $collection
+     * @param callable $function
+     */
+    private function filterByCallable($collection, callable $function): void
+    {
+        $function($collection);
     }
 
     /**
