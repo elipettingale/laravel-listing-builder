@@ -4,8 +4,8 @@ namespace EliPett\ListingBuilder\Filters\Collection;
 
 use EliPett\ListingBuilder\Filters\Filter;
 use EliPett\ListingBuilder\Structs\ListingSpecification;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 
 class CollectionFilter implements Filter
@@ -19,28 +19,54 @@ class CollectionFilter implements Filter
         $this->listingSpecification = new ListingSpecification($request);
     }
 
-    public function filterWhereEqual($data, string $key): void
+    /**
+     * @param \Illuminate\Support\Collection $collection
+     * @param string $key
+     */
+    public function filterWhereEqual($collection, string $key): void
     {
-        // TODO: Implement filterWhereEqual() method.
+        $collection->where($key, '=', $this->request->get($key));
     }
 
-    public function filterWhereLike($data, string $key): void
+    /**
+     * @param \Illuminate\Support\Collection $collection
+     * @param string $key
+     */
+    public function filterWhereLike($collection, string $key): void
     {
-        // TODO: Implement filterWhereLike() method.
+        $collection->where($key, 'LIKE', $this->request->get($key));
     }
 
-    public function filter($data, $arg): void
+    /**
+     * @param \Illuminate\Support\Collection $collection
+     * @param $arg
+     */
+    public function filter($collection, $arg): void
     {
         // TODO: Implement filter() method.
     }
 
-    public function get($data): Collection
+    /**
+     * @param \Illuminate\Support\Collection $collection
+     * @return \Illuminate\Support\Collection
+     */
+    public function get($collection): Collection
     {
-        return $data;
+        return $collection;
     }
 
-    public function paginate($data): LengthAwarePaginator
+    /**
+     * @param \Illuminate\Support\Collection $collection
+     * @return \Illuminate\Pagination\LengthAwarePaginator
+     */
+    public function paginate($collection): LengthAwarePaginator
     {
-        // TODO: Implement paginate() method.
+        return new LengthAwarePaginator(
+            $collection->forPage($this->listingSpecification->getCurrentPage(), $this->listingSpecification->getPerPage()),
+            $collection->count(),
+            $this->listingSpecification->getPerPage(),
+            $this->listingSpecification->getCurrentPage(),
+            ['path' => $this->listingSpecification->getUrl()]
+        );
     }
 }

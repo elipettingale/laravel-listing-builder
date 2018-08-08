@@ -2,7 +2,7 @@
 
 namespace EliPett\ListingBuilder\Filters;
 
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 
 interface Filter

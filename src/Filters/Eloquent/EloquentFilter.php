@@ -4,8 +4,7 @@ namespace EliPett\ListingBuilder\Filters\Eloquent;
 
 use EliPett\ListingBuilder\Filters\Filter;
 use EliPett\ListingBuilder\Structs\ListingSpecification;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Illuminate\Database\Query\Builder;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 
@@ -90,7 +89,7 @@ class EloquentFilter implements Filter
 
     /**
      * @param \Illuminate\Database\Query\Builder $query
-     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     * @return \Illuminate\Pagination\LengthAwarePaginator
      */
     public function paginate($query): LengthAwarePaginator
     {
