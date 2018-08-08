@@ -14,26 +14,26 @@ class BuildListing
     public static function from($data, Request $request = null): ListingBuilder
     {
         if ($data instanceof Builder) {
-            return self::fromQuery($data, $request ?? request());
+            return self::eloquentListingBuilder($data, $request ?? request());
         }
 
         if ($data instanceof Collection) {
-            return self::fromCollection($data, $request ?? request());
+            return self::collectionListingBuilder($data, $request ?? request());
         }
 
         if ($data instanceof Model) {
-            return self::fromQuery($data::query(), $request ?? request());
+            return self::eloquentListingBuilder($data::query(), $request ?? request());
         }
 
         throw new \InvalidArgumentException('Unable to process data of type: ' . \get_class($data));
     }
 
-    private static function fromQuery(Builder $query, Request $request): ListingBuilder
+    private static function eloquentListingBuilder(Builder $query, Request $request): ListingBuilder
     {
         return new ListingBuilder($request, new EloquentFilter($request), $query);
     }
 
-    private static function fromCollection(Collection $collection, Request $request): ListingBuilder
+    private static function collectionListingBuilder(Collection $collection, Request $request): ListingBuilder
     {
         return new ListingBuilder($request, new CollectionFilter($request), $collection);
     }
