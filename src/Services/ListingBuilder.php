@@ -2,25 +2,79 @@
 
 namespace EliPett\ListingBuilder\Services;
 
-use Illuminate\Pagination\LengthAwarePaginator;
+use EliPett\ListingBuilder\Filters\Eloquent\EloquentFilter;
+use EliPett\ListingBuilder\Filters\Filter;
 use EliPett\ListingBuilder\Structs\ListingSpecification;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 
-interface ListingBuilder
+class ListingBuilder
 {
-    public function fromListingSpecification(ListingSpecification $listingSpecification);
+    private $request;
+    private $filter;
+    private $data;
 
-    public function orderResults(string $defaultColumn, string $defaultDirection);
+    public function __construct(Request $request, Filter $filter, $data)
+    {
+        $this->request = $request;
+        $this->filter = $filter;
+        $this->data = $data;
+    }
 
-    public function filterResults(callable $function);
-    public function filterResultsIfTrue(string $key, callable $function);
-    public function filterResultsIfNotTrue(string $key, callable $function);
-    public function filterResultsIfFalse(string $key, callable $function);
-    public function filterResultsIfNotFalse(string $key, callable $function);
-    public function filterResultsWhereLike(array $keys);
-    public function filterResultsWhereEqual(array $keys);
-    public function filterResultsWhereConcatLike(string $key, string $firstColumn, string $secondColumn);
+    public function whereEqual(array $args): ListingBuilder
+    {
+        foreach ($args as $arg) {
+            if ($value = $this->request->get($arg)) {
+                $this->filter->filterWhereEqual($this->data, $arg);
+            }
+        }
 
-    public function getResults(): Collection;
-    public function getPaginatedResults(): LengthAwarePaginator;
+        return $this;
+    }
+
+    public function whereLike(array $args): ListingBuilder
+    {
+        foreach ($args as $arg) {
+            if ($value = $this->request->get($arg)) {
+                $this->filter->filterWhereLike($this->data, $arg);
+            }
+        }
+
+        return $this;
+    }
+
+    public function ifEqual(string $value, array $args): ListingBuilder
+    {
+        foreach ($args as $key => $arg) {
+            if ($this->request->get($key) === $value) {
+                $this->filter->filter($this->data, $arg);
+            }
+        }
+
+        return $this;
+    }
+
+    public function unlessEqual(string $value, array $args): ListingBuilder
+    {
+        foreach ($args as $key => $arg) {
+            if ($this->request->get($key) !== $value) {
+                $this->filter->filter($this->data, $arg);
+            }
+        }
+
+        return $this;
+    }
+
+    public function get(): Collection
+    {
+        return $this->filter->get($this->data);
+    }
+
+    public function paginate(): LengthAwarePaginator
+    {
+        return $this->filter
+            ->paginate($this->data);
+    }
 }
