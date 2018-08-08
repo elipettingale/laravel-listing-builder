@@ -67,6 +67,17 @@ class ListingBuilder
         return $this;
     }
 
+    public function ifSet(array $args): ListingBuilder
+    {
+        foreach ($args as $key => $arg) {
+            if ($value = $this->request->get($key)) {
+                $this->filter->filterByCallable($this->data, $arg, $value);
+            }
+        }
+
+        return $this;
+    }
+
     public function get(): Collection
     {
         return $this->filter->get($this->data);

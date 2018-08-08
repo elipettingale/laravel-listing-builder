@@ -61,10 +61,11 @@ class EloquentFilter implements Filter
     /**
      * @param \Illuminate\Database\Query\Builder $query
      * @param callable $function
+     * @param null $value
      */
-    private function filterByCallable($query, callable $function): void
+    public function filterByCallable($query, callable $function, $value = null): void
     {
-        $function($query);
+        $function($query, $value);
     }
 
     /**
