@@ -71,7 +71,7 @@ class ListingBuilder
     {
         foreach ($args as $key => $arg) {
             if ($value = $this->request->get($key)) {
-                $this->filter->filterByCallable($this->data, $arg, $value);
+                $this->filter->filter($this->data, $arg, $value);
             }
         }
 
