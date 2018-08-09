@@ -7,6 +7,7 @@ use EliPett\ListingBuilder\Structs\ListingSpecification;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Illuminate\Database\Query\Builder;
 
 class EloquentFilter implements Filter
 {
@@ -20,7 +21,7 @@ class EloquentFilter implements Filter
     }
 
     /**
-     * @param \Illuminate\Database\Query\Builder $query
+     * @param Builder $query
      * @param string $key
      */
     public function filterWhereEqual($query, string $key): void
@@ -29,7 +30,7 @@ class EloquentFilter implements Filter
     }
 
     /**
-     * @param \Illuminate\Database\Query\Builder $query
+     * @param Builder $query
      * @param string $key
      */
     public function filterWhereLike($query, string $key): void
@@ -38,8 +39,9 @@ class EloquentFilter implements Filter
     }
 
     /**
-     * @param \Illuminate\Database\Query\Builder $query
-     * @param $arg
+     * @param Builder $query
+     * @param mixed $arg
+     * @param null $value
      */
     public function filter($query, $arg, $value = null): void
     {
@@ -59,9 +61,9 @@ class EloquentFilter implements Filter
     }
 
     /**
-     * @param \Illuminate\Database\Query\Builder $query
+     * @param Builder $query
      * @param callable $function
-     * @param $value
+     * @param mixed $value
      */
     private function filterByCallable($query, callable $function, $value): void
     {
@@ -69,9 +71,9 @@ class EloquentFilter implements Filter
     }
 
     /**
-     * @param \Illuminate\Database\Query\Builder $query
+     * @param Builder $query
      * @param string $scope
-     * @param $value
+     * @param mixed $value
      */
     private function filterByScope($query, string $scope, $value): void
     {
@@ -81,8 +83,8 @@ class EloquentFilter implements Filter
     }
 
     /**
-     * @param \Illuminate\Database\Query\Builder $query
-     * @return \Illuminate\Support\Collection
+     * @param Builder $query
+     * @return Collection
      */
     public function get($query): Collection
     {
@@ -90,8 +92,8 @@ class EloquentFilter implements Filter
     }
 
     /**
-     * @param \Illuminate\Database\Query\Builder $query
-     * @return \Illuminate\Pagination\LengthAwarePaginator
+     * @param Builder $query
+     * @return LengthAwarePaginator
      */
     public function paginate($query): LengthAwarePaginator
     {

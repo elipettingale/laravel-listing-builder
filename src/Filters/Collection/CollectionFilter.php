@@ -20,7 +20,7 @@ class CollectionFilter implements Filter
     }
 
     /**
-     * @param \Illuminate\Support\Collection $collection
+     * @param Collection $collection
      * @param string $key
      */
     public function filterWhereEqual($collection, string $key): void
@@ -29,7 +29,7 @@ class CollectionFilter implements Filter
     }
 
     /**
-     * @param \Illuminate\Support\Collection $collection
+     * @param Collection $collection
      * @param string $key
      */
     public function filterWhereLike($collection, string $key): void
@@ -38,8 +38,8 @@ class CollectionFilter implements Filter
     }
 
     /**
-     * @param \Illuminate\Support\Collection $collection
-     * @param $arg
+     * @param Collection $collection
+     * @param mixed $arg
      * @param null $value
      */
     public function filter($collection, $arg, $value = null): void
@@ -53,9 +53,9 @@ class CollectionFilter implements Filter
     }
 
     /**
-     * @param \Illuminate\Support\Collection $collection
+     * @param Collection $collection
      * @param callable $function
-     * @param $value
+     * @param mixed $value
      */
     private function filterByCallable($collection, callable $function, $value): void
     {
@@ -63,8 +63,8 @@ class CollectionFilter implements Filter
     }
 
     /**
-     * @param \Illuminate\Support\Collection $collection
-     * @return \Illuminate\Support\Collection
+     * @param Collection $collection
+     * @return Collection
      */
     public function get($collection): Collection
     {
@@ -72,8 +72,8 @@ class CollectionFilter implements Filter
     }
 
     /**
-     * @param \Illuminate\Support\Collection $collection
-     * @return \Illuminate\Pagination\LengthAwarePaginator
+     * @param Collection $collection
+     * @return LengthAwarePaginator
      */
     public function paginate($collection): LengthAwarePaginator
     {
