@@ -40,11 +40,12 @@ class CollectionFilter implements Filter
     /**
      * @param \Illuminate\Support\Collection $collection
      * @param $arg
+     * @param null $value
      */
-    public function filter($collection, $arg): void
+    public function filter($collection, $arg, $value = null): void
     {
         if (\is_callable($arg)) {
-            $this->filterByCallable($collection, $arg);
+            $this->filterByCallable($collection, $arg, $value);
             return;
         }
 
@@ -54,9 +55,9 @@ class CollectionFilter implements Filter
     /**
      * @param \Illuminate\Support\Collection $collection
      * @param callable $function
-     * @param null $value
+     * @param $value
      */
-    public function filterByCallable($collection, callable $function, $value = null): void
+    private function filterByCallable($collection, callable $function, $value): void
     {
         $function($collection, $value);
     }

@@ -41,16 +41,16 @@ class EloquentFilter implements Filter
      * @param \Illuminate\Database\Query\Builder $query
      * @param $arg
      */
-    public function filter($query, $arg): void
+    public function filter($query, $arg, $value = null): void
     {
         if (\is_callable($arg)) {
-            $this->filterByCallable($query, $arg);
+            $this->filterByCallable($query, $arg, $value);
             return;
         }
 
         if (\is_string($arg)) {
             if (strpos($arg, 'scope') === 0) {
-                $this->filterByScope($query, $arg);
+                $this->filterByScope($query, $arg, $value);
                 return;
             }
         }
@@ -61,9 +61,9 @@ class EloquentFilter implements Filter
     /**
      * @param \Illuminate\Database\Query\Builder $query
      * @param callable $function
-     * @param null $value
+     * @param $value
      */
-    public function filterByCallable($query, callable $function, $value = null): void
+    private function filterByCallable($query, callable $function, $value): void
     {
         $function($query, $value);
     }
@@ -71,12 +71,13 @@ class EloquentFilter implements Filter
     /**
      * @param \Illuminate\Database\Query\Builder $query
      * @param string $scope
+     * @param $value
      */
-    private function filterByScope($query, string $scope): void
+    private function filterByScope($query, string $scope, $value): void
     {
         $method = substr($scope, 5);
 
-        $query->$method();
+        $query->$method($value);
     }
 
     /**
