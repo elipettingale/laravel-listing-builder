@@ -4,10 +4,10 @@ namespace EliPett\ListingBuilder\Filters\Eloquent;
 
 use EliPett\ListingBuilder\Filters\Filter;
 use EliPett\ListingBuilder\Structs\ListingSpecification;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
-use Illuminate\Database\Query\Builder;
 
 class EloquentFilter implements Filter
 {
@@ -60,9 +60,13 @@ class EloquentFilter implements Filter
             return;
         }
 
+        if (\class_exists($arg)) {
+            $this->filterByGlobalScope($query, $arg, $value);
+        }
+
         if (\is_string($arg)) {
             if (strpos($arg, 'scope') === 0) {
-                $this->filterByScope($query, $arg, $value);
+                $this->filterByLocalScope($query, $arg, $value);
                 return;
             }
         }
@@ -73,23 +77,33 @@ class EloquentFilter implements Filter
     /**
      * @param Builder $query
      * @param callable $function
-     * @param mixed $value
+     * @param mixed $arguments
      */
-    private function filterByCallable($query, callable $function, $value): void
+    private function filterByCallable($query, callable $function, $arguments): void
     {
-        $function($query, $value);
+        $function($query, $arguments);
     }
 
     /**
      * @param Builder $query
      * @param string $scope
-     * @param mixed $value
+     * @param mixed $arguments
      */
-    private function filterByScope($query, string $scope, $value): void
+    private function filterByLocalScope($query, string $scope, $arguments): void
     {
         $method = substr($scope, 5);
 
-        $query->$method($value);
+        $query->$method($arguments);
+    }
+
+    /**
+     * @param Builder $query
+     * @param string $scope
+     * @param mixed $arguments
+     */
+    private function filterByGlobalScope($query, string $scope, $arguments): void
+    {
+        $query->withGlobalScope($scope, new $scope($arguments));
     }
 
     /**
