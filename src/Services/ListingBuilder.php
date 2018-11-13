@@ -83,9 +83,9 @@ class ListingBuilder
         return $this->filter->get($this->data);
     }
 
-    public function paginate(): LengthAwarePaginator
+    public function paginate(int $perPage = 15): LengthAwarePaginator
     {
         return $this->filter
-            ->paginate($this->data);
+            ->paginate($this->data, $perPage);
     }
 }

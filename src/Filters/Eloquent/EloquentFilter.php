@@ -93,10 +93,11 @@ class EloquentFilter implements Filter
 
     /**
      * @param Builder $query
+     * @param int $perPage
      * @return LengthAwarePaginator
      */
-    public function paginate($query): LengthAwarePaginator
+    public function paginate($query, int $perPage): LengthAwarePaginator
     {
-        return $query->paginate($this->listingSpecification->getPerPage());
+        return $query->paginate($perPage);
     }
 }
