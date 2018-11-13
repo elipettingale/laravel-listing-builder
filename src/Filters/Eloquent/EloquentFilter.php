@@ -62,6 +62,7 @@ class EloquentFilter implements Filter
 
         if (\class_exists($arg)) {
             $this->filterByGlobalScope($query, $arg, $value);
+            return;
         }
 
         if (\is_string($arg)) {
