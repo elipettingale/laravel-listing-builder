@@ -22,6 +22,16 @@ class EloquentFilter implements Filter
 
     /**
      * @param Builder $query
+     * @param string $method
+     * @param array $arguments
+     */
+    public function run($query, string $method, array $arguments): void
+    {
+        \call_user_func_array([$query, $method], $arguments);
+    }
+
+    /**
+     * @param Builder $query
      * @param string $key
      */
     public function filterWhereEqual($query, string $key): void

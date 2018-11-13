@@ -7,6 +7,8 @@ use Illuminate\Support\Collection;
 
 interface Filter
 {
+    public function run($data, string $method, array $arguments): void;
+
     public function filterWhereEqual($data, string $key): void;
     public function filterWhereLike($data, string $key): void;
     public function filter($data, $arg, $value = null): void;

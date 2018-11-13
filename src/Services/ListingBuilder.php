@@ -88,4 +88,13 @@ class ListingBuilder
         return $this->filter
             ->paginate($this->data, $perPage);
     }
+
+    public function __call($name, $arguments)
+    {
+        if (!method_exists($this, $name)) {
+            $this->filter->run($this->data, $name, $arguments);
+
+            return $this;
+        }
+    }
 }

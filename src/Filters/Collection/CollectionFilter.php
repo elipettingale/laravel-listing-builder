@@ -21,6 +21,16 @@ class CollectionFilter implements Filter
 
     /**
      * @param Collection $collection
+     * @param string $method
+     * @param array $arguments
+     */
+    public function run($collection, string $method, array $arguments): void
+    {
+        \call_user_func_array([$collection, $method], $arguments);
+    }
+
+    /**
+     * @param Collection $collection
      * @param string $key
      */
     public function filterWhereEqual($collection, string $key): void
