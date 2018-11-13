@@ -73,14 +73,15 @@ class CollectionFilter implements Filter
 
     /**
      * @param Collection $collection
+     * @param int $perPage
      * @return LengthAwarePaginator
      */
-    public function paginate($collection): LengthAwarePaginator
+    public function paginate($collection, int $perPage): LengthAwarePaginator
     {
         return new LengthAwarePaginator(
-            $collection->forPage($this->listingSpecification->getCurrentPage(), $this->listingSpecification->getPerPage()),
+            $collection->forPage($this->listingSpecification->getCurrentPage(), $perPage),
             $collection->count(),
-            $this->listingSpecification->getPerPage(),
+            $perPage,
             $this->listingSpecification->getCurrentPage(),
             ['path' => $this->listingSpecification->getUrl()]
         );

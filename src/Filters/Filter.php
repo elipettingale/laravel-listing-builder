@@ -11,5 +11,5 @@ interface Filter
     public function filterWhereLike($data, string $key): void;
     public function filter($data, $arg, $value = null): void;
     public function get($data): Collection;
-    public function paginate($data): LengthAwarePaginator;
+    public function paginate($data, int $perPage): LengthAwarePaginator;
 }
